@@ -1,7 +1,12 @@
-﻿namespace StringCalculator {
+﻿using System.Linq;
+
+namespace StringCalculator {
     public class Calculator {
         public int Add(string input) {
-            return int.TryParse(input, out var output) ? output : 0;
+            if (input == "")
+                return 0;
+            var operands = input.Split(',');
+            return operands.Sum(int.Parse);
         }
     }
 }
