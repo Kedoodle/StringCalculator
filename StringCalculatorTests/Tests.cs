@@ -40,5 +40,14 @@ namespace StringCalculatorTests {
             var actual = calculator.Add(input);
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData("1,2\n3", 6)]
+        [InlineData("3\n5\n3,9", 20)]
+        public void TakesManyStringNumbersWithCommasAndNewlinesAndReturnsIntegerSum(string input, int expected) {
+            var calculator = new Calculator();
+            var actual = calculator.Add(input);
+            Assert.Equal(expected, actual);
+        }
     }
 }
