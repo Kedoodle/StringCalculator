@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Win32.SafeHandles;
 
 namespace StringCalculator {
     
@@ -11,8 +12,17 @@ namespace StringCalculator {
             if (input == "")
                 return 0;
             var operands = GetOperands(input);
-
+            if (HasNegativeOperands(operands)) {
+                var negatives = GetNegativeOperands(operands);
+                throw new Exception("Negatives not allowed: " + negatives);
+            }
             return operands.Sum(int.Parse);
+        }
+
+        private static string GetNegativeOperands(IEnumerable<string> operands) {
+            var negatives = operands.Where(operand => int.Parse(operand) < 0)
+                .Aggregate((current, operand) => current + ", " + operand);
+            return negatives;
         }
 
         private IEnumerable<string> GetOperands(string input) {
@@ -26,6 +36,10 @@ namespace StringCalculator {
                 operands = input.Split(delimiters, StringSplitOptions.None);
             }
             return operands;
+        }
+
+        private static bool HasNegativeOperands(IEnumerable<string> operands) {
+            return operands.Any(operand => int.Parse(operand) < 0);
         }
 
         private static int GetCustomDelimitersEndIndex(string input) {

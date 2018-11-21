@@ -57,5 +57,13 @@ namespace StringCalculatorTests {
             var actual = calculator.Add(input);
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void TakesNegativeStringNumbersAndThrowsException() {
+            var input = "-1,2,-3";
+            var calculator = new Calculator();
+            var ex = Assert.Throws<Exception>(() => calculator.Add(input));
+            Assert.Equal("Negatives not allowed: -1, -3", ex.Message);
+        }
     }
 }
