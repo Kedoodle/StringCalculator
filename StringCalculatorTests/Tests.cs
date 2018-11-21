@@ -92,6 +92,25 @@ namespace StringCalculatorTests {
             var actual = calculator.Add(input);
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void TakesManyCustomMultiCharacterDelimitersWithNewFormat() {
+            var input = "//[***][#][%]\n1***2#3%4";
+            var calculator = new Calculator();
+            var expected = 10;
+            var actual = calculator.Add(input);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TakesManyCustomMultiCharacterDelimitersWithNumbersInMiddleWithNewFormat() {
+            var input = "//[*1*][%]\n1*1*2%3";
+            var calculator = new Calculator();
+            var expected = 6;
+            var actual = calculator.Add(input);
+            Assert.Equal(expected, actual);
+        }
+        
         
     }
 }
