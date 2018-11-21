@@ -65,5 +65,16 @@ namespace StringCalculatorTests {
             var ex = Assert.Throws<Exception>(() => calculator.Add(input));
             Assert.Equal("Negatives not allowed: -1, -3", ex.Message);
         }
+
+        [Fact]
+        public void IgnoresNumbersGreaterThanOrEqualTo1000() {
+            var input = "1000,1001,2";
+            var calculator = new Calculator();
+            var expected = 2;
+            var actual = calculator.Add(input);
+            Assert.Equal(expected, actual);
+        }
+        
+        
     }
 }

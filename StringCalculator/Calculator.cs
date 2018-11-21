@@ -26,7 +26,7 @@ namespace StringCalculator {
         }
 
         private IEnumerable<string> GetOperands(string input) {
-            string[] operands;
+            IEnumerable<string> operands;
             if (HasCustomDelimiter(input)) {
                 var delimiterEndIndex = GetCustomDelimitersEndIndex(input);
                 var delimiter = GetCustomDelimiter(input, delimiterEndIndex);
@@ -35,6 +35,7 @@ namespace StringCalculator {
             else {
                 operands = input.Split(delimiters, StringSplitOptions.None);
             }
+            operands = operands.Where(operand => int.Parse(operand) < 1000);
             return operands;
         }
 
