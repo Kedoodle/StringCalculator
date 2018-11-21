@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Win32.SafeHandles;
+using System.Text.RegularExpressions;
 
 namespace StringCalculator {
     
@@ -28,9 +28,9 @@ namespace StringCalculator {
         private IEnumerable<string> GetOperands(string input) {
             IEnumerable<string> operands;
             if (HasCustomDelimiter(input)) {
-                var delimiterEndIndex = GetCustomDelimitersEndIndex(input);
-                var delimiter = GetCustomDelimiter(input, delimiterEndIndex);
-                operands = input.Substring(delimiterEndIndex + 1).Split(delimiter, StringSplitOptions.None);
+                var customDelimitersEndIndex = GetCustomDelimitersEndIndex(input);
+                var customDelimiters = GetCustomDelimiters(input, customDelimitersEndIndex);
+                operands = input.Substring(customDelimitersEndIndex + 1).Split(customDelimiters.ToArray(), StringSplitOptions.None);
             }
             else {
                 operands = input.Split(delimiters, StringSplitOptions.None);
@@ -47,8 +47,10 @@ namespace StringCalculator {
             return input.IndexOf("\n");
         }
 
-        private static string[] GetCustomDelimiter(string input, int delimiterEndIndex) {
-            return new[] {input.Substring(2, delimiterEndIndex - 2)};
+        private static IEnumerable<String> GetCustomDelimiters(string input, int customDelimiterEndIndex) {
+            return Regex.Matches(input.Substring(2, customDelimiterEndIndex - 2), @"\[[^\]]+\]")
+                .Cast<Match>()
+                .Select(m => m.Value.Substring(1, m.Length-2));
         }
 
         private static bool HasCustomDelimiter(string input) {

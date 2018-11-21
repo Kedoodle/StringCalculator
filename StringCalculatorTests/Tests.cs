@@ -74,7 +74,24 @@ namespace StringCalculatorTests {
             var actual = calculator.Add(input);
             Assert.Equal(expected, actual);
         }
-        
+
+        [Fact]
+        public void TakesCustomDelimiterWithNewFormat() {
+            var input = "//[***]\n1***2***3";
+            var calculator = new Calculator();
+            var expected = 6;
+            var actual = calculator.Add(input);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TakesManyCustomDelimitersWithNewFormat() {
+            var input = "//[*][%]\n1*2%3";
+            var calculator = new Calculator();
+            var expected = 6;
+            var actual = calculator.Add(input);
+            Assert.Equal(expected, actual);
+        }
         
     }
 }
